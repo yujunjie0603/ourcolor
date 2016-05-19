@@ -16,11 +16,11 @@ Route::get('/', function () {
 });
 
 // chemin admin
-Route::group(['prefix' => 'admin', 'namespace' => 'admin'], function() {
+Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function() {
 
 	Route::get('/', 'AdminHomeController@index');
 	Route::resource('colorinfo', 'ColorInfoController');
 });
 
-Route::get('color/{team}', 'ColorInfoController@index');
+Route::get('color/{team?}', 'ColorInfoController@index');
 Route::get('color/', 'ColorInfoController@index');

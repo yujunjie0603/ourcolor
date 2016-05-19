@@ -43,10 +43,12 @@ $(function() {
 					@endforeach
 				</select>
 				<br>
-				<button class="btn btn-lg btn-info">新增 Color</button>
+				<button class="btn btn-lg btn-info">Add Color</button>
 			</form>
 		</div>
 	</div>
+
+	div.col-md-4>div>form
 
 </div>
 @endsection
