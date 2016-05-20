@@ -10,6 +10,7 @@ use App\ColorInfo;
 use App\Teams;
 use App\Colors;
 use Redirect, Input, Auth;
+
 class ColorInfoController extends Controller
 {
     /**
@@ -122,7 +123,19 @@ class ColorInfoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        $colorInfo = ColorInfo::find($id);
+        $colorInfo->color_id = \Illuminate\Support\Facades\Input::get('couleur');
+        if ($colorInfo->save()) {
+            $return = array(
+                'id' => $id,
+                'color_code' => $colorInfo->hasOneColor->color_code,
+                'name' => $colorInfo->hasOneColor->name
+                );
+            return json_encode($return);
+        } else {
+            echo  "echoue";
+        }
     }
 
     /**

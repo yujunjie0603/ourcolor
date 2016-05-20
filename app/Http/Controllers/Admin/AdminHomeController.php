@@ -7,11 +7,14 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\ColorInfo;
+use App\Colors;
 class AdminHomeController extends Controller
 {
     public function index() 
     {
-    	$data = ColorInfo::orderby('team_id')->orderby('date')->get();
-    	return view('admin.index', array('listeColorInfo' => $data));
+    	$data = array('listeColorInfo' => ColorInfo::orderby('team_id')->orderby('date')->get(),
+    		'listeColor' => Colors::all()
+    		);
+    	return view('admin.index', $data);
     }
 }
