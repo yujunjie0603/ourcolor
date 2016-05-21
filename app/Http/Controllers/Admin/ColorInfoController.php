@@ -134,7 +134,7 @@ class ColorInfoController extends Controller
                 );
             return json_encode($return);
         } else {
-            echo  "echoue";
+            return "echoue";
         }
     }
 
@@ -146,6 +146,10 @@ class ColorInfoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if ($colorInfo = ColorInfo::destroy($id)) {
+            return "reussi";
+        } else {
+            return "echoue";
+        }
     }
 }

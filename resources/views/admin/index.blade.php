@@ -14,21 +14,22 @@
 		<td>Action</td>
 	</tr>
 	@foreach($listeColorInfo as $colorInfo)
-	<tr>
+	<tr id="ligne_{{ $colorInfo->id }}">
 		<td>{{ $colorInfo->date }}</td>
 		<td>{{ date_format(date_create($colorInfo->date), 'l') }}</td>
 		<td>{{ $colorInfo->team_id }}</td>
 		<td style="background-color:{{$colorInfo->hasOneColor->color_code}}" id="color_info_{{ $colorInfo->id }}" class="show_color"> 
 			<label style="color:@if ($colorInfo->hasOneColor->color_code != '#ffffff') #000000 @else #000000 @endif">{{$colorInfo->hasOneColor->name}}</label></td>
-		<td > 
+		<td> 
 			<a href="#" class="glyphicon glyphicon-pencil modifier_color" id="{{ $colorInfo->id }}">&nbsp;</a>
-			<a href="#" class="glyphicon glyphicon-trash">&nbsp;</a>
+			<a href="#" class="glyphicon glyphicon-trash delete_color" data-id="{{ $colorInfo->id }}">&nbsp;</a>
 		</td>
 	</tr>
 	@endforeach
 
 </table>
 <div id="dialog-form" title="Liste Couleur">
+	<div><p id="modif_error"></p></div>
 	<form class="form" id="form_new_color">
 	<fieldset>
 		<label for="color">Couleur : </label>
@@ -42,6 +43,13 @@
 		</select>
 		<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
 	</fieldset>
+	</form>
+</div>
+<div>
+	<form id="form_delete_color">
+		{{ csrf_field() }}
+        {{ method_field('DELETE') }}
+		<input type="hidden" name="delete_id" id="delete_id" value="">
 	</form>
 </div>
 <script type="text/javascript">
@@ -64,6 +72,8 @@
 								$("#color_info_" + obj.id).css("background-color" , obj.color_code);
 								$("#color_info_" + obj.id).html("<label style=\"color:#ffffff\">" + obj.name + "</label></td>");
 								dialog.dialog( "close" );
+							} else {
+								$("#modif_error").html("La modification est echoué !");
 							}
 						}
 					});
@@ -76,9 +86,23 @@
 		$( ".modifier_color" ).button().on( "click", function() {
 			$('#id_c_i').val(this.id);
 			dialog.dialog("open");
-			
 		});
 
+		$(".delete_color").button().on("click", function(){
+			id = $(this).data("id");
+			$("#delete_id").val(id);
+			$.ajax({
+				url: '/admin/colorinfo/' + id,
+				type: "POST",
+				data: $("#form_delete_color").serialize(),
+				success:function(data) {
+					alert(id);
+					if (data != 'echoue') {
+						$("#ligne_" + id).hide();
+					}
+				}
+			});
+		});
 	});
 </script>
 
