@@ -89,6 +89,9 @@
 		});
 
 		$(".delete_color").button().on("click", function(){
+			if (!confirm("Vous voulez supprimer cette couleur ? ")) {
+				return false;
+			}
 			id = $(this).data("id");
 			$("#delete_id").val(id);
 			$.ajax({
@@ -96,9 +99,10 @@
 				type: "POST",
 				data: $("#form_delete_color").serialize(),
 				success:function(data) {
-					alert(id);
 					if (data != 'echoue') {
 						$("#ligne_" + id).hide();
+					} else {
+
 					}
 				}
 			});
