@@ -8,12 +8,18 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\ColorInfo;
 use App\Colors;
+use App\Teams;
 class AdminHomeController extends Controller
 {
-    public function index() 
+    public function index($team_id = "") 
     {
-    	$data = array('listeColorInfo' => ColorInfo::orderby('team_id')->orderby('date')->get(),
-    		'listeColor' => Colors::all()
+    	if ($team_id == "") {
+    		$team_id = 1; // equipe developpement
+    	}
+    	$data = array('listeColorInfo' => ColorInfo::where('team_id', $team_id)->orderby('team_id')->orderby('date')->get(),
+    		'listeColor' => Colors::all(),
+    		'teamId' => $team_id,
+    		'listeTeam' => Teams::all()
     		);
     	return view('admin.index', $data);
     }

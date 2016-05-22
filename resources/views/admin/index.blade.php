@@ -3,31 +3,49 @@
  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 @endsection
 @section('content')
-<a href="{{ URL('admin/colorinfo/create') }}" class="btn btn-lg btn-primary">couleurer un jour</a>
+<div class="row">
+	<div class="col-md-4">
+		<form action="#" method="GET" id="form_team" class="form">
+			<div class="col-md-4">
+				<label for="">Equipe : </label>
+			</div>
+			<div class="col-md-8">
+				<select name="team_id" id="team_id" class="form-control">
+			@foreach ($listeTeam as $team)
+				<option value="{{$team->id}}" @if ($teamId == $team->id) selected="selected" @endif >{{$team->name}}</option>
+			@endforeach
+				</select>
+			</div>
+		</form>
+	</div>
+	<div class="col-md-4 col-md-offset-4" >
+		<a href="{{ URL('admin/colorinfo/create') }}" class="btn btn-primary ">couleurer un jour</a>
+	</div>
+</div>
+<div>
+	<table class="table">
+		<tr>
+			<td>Date</td>
+			<td>Jour</td>
+			<td>Couleur</td>
+			<td>Action</td>
+		</tr>
+		@foreach($listeColorInfo as $colorInfo)
+		<tr id="ligne_{{ $colorInfo->id }}">
+			<td>{{ $colorInfo->date }}</td>
+			<td>{{ date_format(date_create($colorInfo->date), 'l') }}</td>
+			<td style="background-color:{{$colorInfo->hasOneColor->color_code}}" id="color_info_{{ $colorInfo->id }}" class="show_color"> 
+				<label style="color:@if ($colorInfo->hasOneColor->color_code != '#ffffff') #000000 @else #000000 @endif">{{$colorInfo->hasOneColor->name}}</label></td>
+			<td> 
+				<a href="#" class="glyphicon glyphicon-pencil modifier_color" id="{{ $colorInfo->id }}">&nbsp;</a>
+				<a href="#" class="glyphicon glyphicon-trash delete_color" data-id="{{ $colorInfo->id }}">&nbsp;</a>
+			</td>
+		</tr>
+		@endforeach
 
-<table class="table">
-	<tr>
-		<td>Date</td>
-		<td>Jour</td>
-		<td>Team</td>
-		<td>Couleur</td>
-		<td>Action</td>
-	</tr>
-	@foreach($listeColorInfo as $colorInfo)
-	<tr id="ligne_{{ $colorInfo->id }}">
-		<td>{{ $colorInfo->date }}</td>
-		<td>{{ date_format(date_create($colorInfo->date), 'l') }}</td>
-		<td>{{ $colorInfo->team_id }}</td>
-		<td style="background-color:{{$colorInfo->hasOneColor->color_code}}" id="color_info_{{ $colorInfo->id }}" class="show_color"> 
-			<label style="color:@if ($colorInfo->hasOneColor->color_code != '#ffffff') #000000 @else #000000 @endif">{{$colorInfo->hasOneColor->name}}</label></td>
-		<td> 
-			<a href="#" class="glyphicon glyphicon-pencil modifier_color" id="{{ $colorInfo->id }}">&nbsp;</a>
-			<a href="#" class="glyphicon glyphicon-trash delete_color" data-id="{{ $colorInfo->id }}">&nbsp;</a>
-		</td>
-	</tr>
-	@endforeach
+	</table>
 
-</table>
+</div>
 <div id="dialog-form" title="Liste Couleur">
 	<div><p id="modif_error"></p></div>
 	<form class="form" id="form_new_color">
@@ -106,6 +124,11 @@
 					}
 				}
 			});
+		});
+
+		$("#team_id").on("change", function(){
+
+			$("#form_team").attr('action', "/admin/" + $("#team_id").val()).submit();
 		});
 	});
 </script>
