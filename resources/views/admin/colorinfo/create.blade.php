@@ -47,9 +47,6 @@ $(function() {
 			</form>
 		</div>
 	</div>
-
-	div.col-md-4>div>form
-
 </div>
 @endsection
 

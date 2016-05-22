@@ -1,6 +1,7 @@
 @extends('_layout.admin')
 @section('header_js')
  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+ <link rel="stylesheet" href="/css/calendar.css">
 @endsection
 @section('content')
 <div class="row">
@@ -12,7 +13,7 @@
 			<div class="col-md-8">
 				<select name="team_id" id="team_id" class="form-control">
 			@foreach ($listeTeam as $team)
-				<option value="{{$team->id}}" @if ($teamId == $team->id) selected="selected" @endif >{{$team->name}}</option>
+					<option value="{{$team->id}}" @if ($teamId == $team->id) selected="selected" @endif >{{$team->name}}</option>
 			@endforeach
 				</select>
 			</div>
@@ -21,6 +22,9 @@
 	<div class="col-md-4 col-md-offset-4" >
 		<a href="{{ URL('admin/colorinfo/create') }}" class="btn btn-primary ">couleurer un jour</a>
 	</div>
+</div>
+<div>
+	{!!$calendar !!}
 </div>
 <div>
 	<table class="table">
@@ -42,9 +46,7 @@
 			</td>
 		</tr>
 		@endforeach
-
 	</table>
-
 </div>
 <div id="dialog-form" title="Liste Couleur">
 	<div><p id="modif_error"></p></div>
