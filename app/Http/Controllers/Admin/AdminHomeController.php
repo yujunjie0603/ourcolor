@@ -18,14 +18,19 @@ class AdminHomeController extends Controller
     	if ($team_id == "") {
     		$team_id = 1; // equipe developpement
     	}
-    	$calendar = Calendar::draw_calendar(5,2016);
+        $listeColorTeam = ColorInfo::where('team_id', $team_id)->orderby('team_id')->orderby('date')->get();
+        $listeColor = Colors::all();
+        $data = array('listeColorInfo' => $listeColorTeam,
+            'listeColor' => $listeColor,
+            'teamId' => $team_id,
+            'listeTeam' => Teams::all()
+            );
+        foreach ($listeColorTeam as $key => $value) {
+            $color[$value->date] = $value->hasOneColor->color_code;
+        }
 
-    	$data = array('listeColorInfo' => ColorInfo::where('team_id', $team_id)->orderby('team_id')->orderby('date')->get(),
-    		'listeColor' => Colors::all(),
-    		'teamId' => $team_id,
-    		'listeTeam' => Teams::all(),
-    		'calendar' => $calendar
-    		);
+        $calendar = Calendar::draw_calendar(5, 2016, $color);
+        $data['calendar'] = $calendar;
     	return view('admin.index', $data);
     }
 }

@@ -8,7 +8,7 @@ namespace App\lib;
 class Calendar {  
      
     /* draws a calendar */
-    public static function draw_calendar($month,$year){
+    public static function draw_calendar($month, $year, $color=array()){
 
         /* draw table */
         $calendar = '<table cellpadding="0" cellspacing="0" class="calendar">';
@@ -32,10 +32,12 @@ class Calendar {
             $calendar.= '<td class="calendar-day-np"> </td>';
             $days_in_this_week++;
         endfor;
-
         /* keep going with days.... */
         for($list_day = 1; $list_day <= $days_in_month; $list_day++):
-            $calendar.= '<td class="calendar-day">';
+            $day_text = strlen($list_day) == 1 ? '0' . $list_day : $list_day;
+            $month_text = strlen($month) == 1 ? '0' . $month : $month;
+            $color_text = !empty($color[$year . '-' . $month_text . '-' . $day_text]) ? $color[$year . '-' . $month_text . '-' . $day_text] : " ";
+            $calendar.= '<td class="calendar-day"  style="background-color:' . $color_text . '">';
                 /* add in the day number */
                 $calendar.= '<div class="day-number">'.$list_day.'</div>';
 
