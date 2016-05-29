@@ -13,7 +13,7 @@ use App\lib\Calendar;
 
 class AdminHomeController extends Controller
 {
-    public function index($team_id = "") 
+    public function index($team_id = "", $year="", $month="") 
     {
     	if ($team_id == "") {
     		$team_id = 1; // equipe developpement
@@ -28,8 +28,9 @@ class AdminHomeController extends Controller
         foreach ($listeColorTeam as $key => $value) {
             $color[$value->date] = $value->hasOneColor->color_code;
         }
-
-        $calendar = Calendar::draw_calendar(5, 2016, $color);
+        $month = $month ? $month : date('m');
+        $year = $year ? $year : date('Y');
+        $calendar = Calendar::draw_calendar($month, $year, $color);
         $data['calendar'] = $calendar;
     	return view('admin.index', $data);
     }
