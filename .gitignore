@@ -1,47 +1,29 @@
-# Windows image file caches
-Thumbs.db
-ehthumbs.db
+/bootstrap/compiled.php
+/vendor
 
-# Folder config file
-Desktop.ini
 
-# Recycle Bin used on file shares
-$RECYCLE.BIN/
+/build/logs
+/build/coverage
 
-# Windows Installer files
-*.cab
-*.msi
-*.msm
-*.msp
 
-# Windows shortcuts
-*.lnk
+/app/tests/_log
 
-# =========================
-# Operating System Files
-# =========================
 
-# OSX
-# =========================
+composer.phar
+
 
 .DS_Store
-.AppleDouble
-.LSOverride
 
-# Thumbnails
-._*
 
-# Files that might appear in the root of a volume
-.DocumentRevisions-V100
-.fseventsd
-.Spotlight-V100
-.TemporaryItems
-.Trashes
-.VolumeIcon.icns
+/.idea
+/_ide_helper.php
 
-# Directories potentially created on remote AFP share
-.AppleDB
-.AppleDesktop
-Network Trash Folder
-Temporary Items
-.apdisk
+
+/app/config/packages
+/public/packages
+
+
+/node_modules
+
+
+.env
