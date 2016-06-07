@@ -26,36 +26,17 @@
 <div>
 	{!!$calendar !!}
 </div>
-<div>
-	<table class="table">
-		<tr>
-			<td>Date</td>
-			<td>Jour</td>
-			<td>Couleur</td>
-			<td>Action</td>
-		</tr>
-		@foreach($listeColorInfo as $colorInfo)
-		<tr id="ligne_{{ $colorInfo->id }}">
-			<td>{{ $colorInfo->date }}</td>
-			<td>{{ date_format(date_create($colorInfo->date), 'l') }}</td>
-			<td style="background-color:{{$colorInfo->hasOneColor->color_code}}" id="color_info_{{ $colorInfo->id }}" class="show_color"> 
-				<label style="color:@if ($colorInfo->hasOneColor->color_code != '#ffffff') #000000 @else #000000 @endif">{{$colorInfo->hasOneColor->name}}</label></td>
-			<td> 
-				<a href="#" class="glyphicon glyphicon-pencil modifier_color" id="{{ $colorInfo->id }}">&nbsp;</a>
-				<a href="#" class="glyphicon glyphicon-trash delete_color" data-id="{{ $colorInfo->id }}">&nbsp;</a>
-			</td>
-		</tr>
-		@endforeach
-	</table>
-</div>
+
 <div id="dialog-form" title="Liste Couleur">
 	<div><p id="modif_error"></p></div>
 	<form class="form" id="form_new_color">
 	<fieldset>
-		<label for="color">Couleur : </label>
 		<input type="hidden" name="id_c_i" id="id_c_i" value="">
+		<label for="color">Date : </label>
+		<input type="text" name="date" value="" id="date_c_i" readonly>
 		<input name="_method" type="hidden" value="PATCH">
 		<input name="_token" type="hidden" value="{{ csrf_token() }}">
+		<label for="color">Couleur : </label>
 		<select name="couleur" id="new_couleur">
 			@foreach($listeColor as $color)
 			<option value="{{ $color->id }}">{{ $color->name }}</option>
@@ -89,8 +70,7 @@
 						success:function(data) {
 							if (data !== "echoue") {
 								obj = jQuery.parseJSON(data);
-								$("#color_info_" + obj.id).css("background-color" , obj.color_code);
-								$("#color_info_" + obj.id).html("<label style=\"color:#ffffff\">" + obj.name + "</label></td>");
+								$("#" + obj.id).css("background-color" , obj.color_code);
 								dialog.dialog( "close" );
 							} else {
 								$("#modif_error").html("La modification est echoué !");
@@ -103,8 +83,9 @@
 				}
 			},
 		});
-		$( ".modifier_color" ).button().on( "click", function() {
-			$('#id_c_i').val(this.id);
+		$( ".calendar-day" ).button().on( "click", function() {
+			$('#id_c_i').val($(this).data("colorid"));
+			$('#date_c_i').val($(this).data("date"));
 			dialog.dialog("open");
 		});
 
