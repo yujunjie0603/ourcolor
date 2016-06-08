@@ -36,13 +36,14 @@ class Calendar {
         for($list_day = 1; $list_day <= $days_in_month; $list_day++):
             $day_text = strlen($list_day) == 1 ? '0' . $list_day : $list_day;
             $month_text = strlen($month) == 1 ? '0' . $month : $month;
-            $color_text = !empty($color[$year . '-' . $month_text . '-' . $day_text]) ? $color[$year . '-' . $month_text . '-' . $day_text] : " ";
-            $calendar.= '<td class="calendar-day"  style="background-color:' . $color_text . '">';
-                /* add in the day number */
-                $calendar.= '<div class="day-number">'.$list_day.'</div>';
+            $color_text = !empty($color[$year . '-' . $month_text . '-' . $day_text]) ? $color[$year . '-' . $month_text . '-' . $day_text]['color'] : " ";
+            $color_id = !empty($color[$year . '-' . $month_text . '-' . $day_text]) ? $color[$year . '-' . $month_text . '-' . $day_text]['id'] : " ";
+            $calendar.= '<td class="calendar-day"  style="background-color:' . $color_text . '" data-colorid = "' . $color_id . '" id="' . $color_id . '" data-date="' . $year . '-' . $month_text . '-' . $day_text . '">';
+            /* add in the day number */
+            $calendar.= '<div class="day-number">'.$list_day.'</div>';
 
-                /** QUERY THE DATABASE FOR AN ENTRY FOR THIS DAY !!  IF MATCHES FOUND, PRINT THEM !! **/
-                $calendar.= str_repeat('<p> </p>',2);
+            /** QUERY THE DATABASE FOR AN ENTRY FOR THIS DAY !!  IF MATCHES FOUND, PRINT THEM !! **/
+            $calendar.= str_repeat('<p> </p>',2);
                 
             $calendar.= '</td>';
             if($running_day == 6):

@@ -45,11 +45,11 @@ class ColorInfoController extends Controller
      */
     public function store(Request $request)
     {
+
         $this->validate($request, [
             'team' => 'required',
             'date' => 'required'
             ]);
-
         $date = $request->input('date');
         $team = $request->input('team');
         $name = $request->input('name');
@@ -86,7 +86,7 @@ class ColorInfoController extends Controller
             $colorInfo->team_id = $team;
             $colorInfo->color_id = $colorId;
             if ($colorInfo->save()) {
-                return redirect('admin/');
+                //return redirect('admin/');
             }
             return redirect()->back()->withErrors("Erreur de la création !")->withInput();
         }
