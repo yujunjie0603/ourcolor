@@ -23,7 +23,8 @@
 		<a href="{{ URL('admin/colorinfo/create') }}" class="btn btn-primary ">couleurer un jour</a>
 	</div>
 </div>
-<div>
+<br />
+<div >
 	{!!$calendar !!}
 </div>
 
@@ -34,10 +35,11 @@
 		<input type="hidden" name="id_c_i" id="id_c_i" value="">
 		<label for="color">Date : </label>
 		<input type="text" name="date" value="" id="date_c_i" readonly>
-		<input name="_method" type="hidden" value="PATCH">
+		<input name="_method" type="hidden" value="PATCH" id="method_formulaire">
+		<input name="team" type='hidden' value="<?=$teamId;?>">
 		<input name="_token" type="hidden" value="{{ csrf_token() }}">
 		<label for="color">Couleur : </label>
-		<select name="couleur" id="new_couleur">
+		<select name="color" id="new_couleur">
 			@foreach($listeColor as $color)
 			<option value="{{ $color->id }}">{{ $color->name }}</option>
 			@endforeach
@@ -62,10 +64,14 @@
 			width: 350,
 			modal: true,
 			buttons: {
-				"Changer la couleur" : function() {
+				"Valider" : function() {
+					url = '/admin/colorinfo';
+					if ($.trim($("#id_c_i").val()) != "") {
+						url = url + '/' + $("#id_c_i").val();
+					}
 					$.ajax({
 						type: "POST",
-						url: '/admin/colorinfo/' + $("#id_c_i").val(),
+						url: url,
 						data: $("#form_new_color").serialize(),
 						success:function(data) {
 							if (data !== "echoue") {
@@ -84,7 +90,13 @@
 			},
 		});
 		$( ".calendar-day" ).button().on( "click", function() {
-			$('#id_c_i').val($(this).data("colorid"));
+			if ($.trim($(this).data("colorid")) != "") {
+				$('#id_c_i').val($(this).data("colorid"));
+				$("#method_formulaire").val('PATCH');
+			} else {
+				$('#id_c_i').val("");
+				$("#method_formulaire").val('POST');
+			}
 			$('#date_c_i').val($(this).data("date"));
 			dialog.dialog("open");
 		});

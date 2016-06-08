@@ -10,7 +10,7 @@ use App\ColorInfo;
 use App\Teams;
 use App\Colors;
 use Redirect, Input, Auth;
-
+use Request as RequestInit;
 class ColorInfoController extends Controller
 {
     /**
@@ -56,11 +56,11 @@ class ColorInfoController extends Controller
         $newColor = $request->input('new_color');
         $colorId = $request->input('color');
         $checkColorError = false;
-        if (!$colorId && !$newColor) {
+        if ((!isset($colorId) || $colorId === "") && !$newColor) {
             $checkColorError = true;
         }
-
         $checkColorInfo = ColorInfo::where('date', $date)->where('team_id', $team)->count();
+
         if ($checkColorInfo || $checkColorError) {
 
             if ($checkColorError) {
@@ -86,7 +86,15 @@ class ColorInfoController extends Controller
             $colorInfo->team_id = $team;
             $colorInfo->color_id = $colorId;
             if ($colorInfo->save()) {
-                //return redirect('admin/');
+                if (RequestInit::ajax()) {
+                    $return = array(
+                        'id' => $colorInfo->id,
+                        'color_code' => $colorInfo->hasOneColor->color_code,
+                        'name' => $colorInfo->hasOneColor->name
+                        );
+                    return json_encode($return);
+                }
+                return redirect('admin/');
             }
             return redirect()->back()->withErrors("Erreur de la création !")->withInput();
         }
@@ -125,7 +133,7 @@ class ColorInfoController extends Controller
     {
 
         $colorInfo = ColorInfo::find($id);
-        $colorInfo->color_id = \Illuminate\Support\Facades\Input::get('couleur');
+        $colorInfo->color_id = \Illuminate\Support\Facades\Input::get('color');
         if ($colorInfo->save()) {
             $return = array(
                 'id' => $id,
