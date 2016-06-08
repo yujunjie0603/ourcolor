@@ -76,6 +76,9 @@
 						success:function(data) {
 							if (data !== "echoue") {
 								obj = jQuery.parseJSON(data);
+								if (typeof obj.date != 'undefined') {
+									$("td[data-date*='" + obj.date + "']").attr('id', obj.id);
+								}
 								$("#" + obj.id).css("background-color" , obj.color_code);
 								dialog.dialog( "close" );
 							} else {
@@ -90,8 +93,9 @@
 			},
 		});
 		$( ".calendar-day" ).button().on( "click", function() {
-			if ($.trim($(this).data("colorid")) != "") {
-				$('#id_c_i').val($(this).data("colorid"));
+
+			if ($.trim($(this).attr('id')) != "") {
+				$('#id_c_i').val($(this).attr('id'));
 				$("#method_formulaire").val('PATCH');
 			} else {
 				$('#id_c_i').val("");

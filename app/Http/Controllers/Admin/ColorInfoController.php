@@ -68,6 +68,9 @@ class ColorInfoController extends Controller
             } else {
                 $errorInfo = "bbbbbbbbbbb";
             }
+            if (RequestInit::ajax()) {
+                return "echoue";
+            }
             return redirect()->back()->withErrors($errorInfo)->withInput();
         } else {
 
@@ -90,7 +93,8 @@ class ColorInfoController extends Controller
                     $return = array(
                         'id' => $colorInfo->id,
                         'color_code' => $colorInfo->hasOneColor->color_code,
-                        'name' => $colorInfo->hasOneColor->name
+                        'name' => $colorInfo->hasOneColor->name,
+                        'date' => $colorInfo->date,
                         );
                     return json_encode($return);
                 }
@@ -131,7 +135,6 @@ class ColorInfoController extends Controller
      */
     public function update(Request $request, $id)
     {
-
         $colorInfo = ColorInfo::find($id);
         $colorInfo->color_id = \Illuminate\Support\Facades\Input::get('color');
         if ($colorInfo->save()) {
