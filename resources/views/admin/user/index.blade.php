@@ -28,7 +28,7 @@
 							<td>{{$user->name}}</td>
 							<td>{{$user->email}}</td>
 							<td>{{$user->telephone}}</td>
-							<td>{{$user->telephone}}</td>
+							<td><a href="{{ URL('admin/user/' . $user->id . '/edit') }}"> modifier</a></td>
 						</tr>	
 					@endforeach
 				</table>
