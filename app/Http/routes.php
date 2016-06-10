@@ -18,9 +18,13 @@ Route::get('/', function () {
 // chemin admin
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function() {
 
-	Route::get('/{team_id?}', 'AdminHomeController@index');
 	Route::resource('colorinfo', 'ColorInfoController');
+	Route::resource('user', 'UserController');
+	Route::get('/{team_id?}', 'AdminHomeController@index');
 });
 
 Route::get('color/{team?}', 'ColorInfoController@index');
 Route::get('color/', 'ColorInfoController@index');
+Route::auth();
+
+Route::get('/home', 'HomeController@index');
