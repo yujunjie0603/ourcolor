@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\User;
-
+use App\Teams;
 
 class UserController extends Controller
 {
@@ -64,7 +64,10 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::find($id);
-        return view('admin.user.create')->with('user', $user);
+        $teams = Teams::all();
+        return view('admin.user.edit', 
+            ['teams' => $teams, 'user' => $user]
+        );
     }
 
     /**
@@ -76,7 +79,7 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        
     }
 
     /**
