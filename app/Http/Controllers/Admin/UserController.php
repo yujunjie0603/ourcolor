@@ -30,7 +30,6 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
     }
 
     /**
@@ -79,7 +78,23 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+        $user = User::find($id);
+        if ($user) {
+            $this->validate($request, [
+                'nom' => 'required',
+                'email' => 'required|unique:users,email,' . $id . '|email',
+                'team' => 'required',
+                'telephone' => 'required'
+                ]);
+            $user->name = $request->input('nom');
+            $user->email = $request->input('email');
+            $user->team_id = $request->input('team');
+            $user->telephone = $request->input('telephone');
+            if ($user->save()) {
+                return redirect('admin/user');
+            }
+        }
+        return redirect()->back()->withErrors("Erreur de la mis à jour !")->withInput();
     }
 
     /**
