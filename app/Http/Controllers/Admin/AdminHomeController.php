@@ -18,8 +18,13 @@ class AdminHomeController extends Controller
     	if ($team_id == "") {
     		$team_id = 1; // equipe developpement
     	}
-        $month = ($request->input('month'));
-        $year = ($request->input('year'));
+
+        if ($request->input('time_actuel')) {
+            $time = ($request->input('time_actuel'));
+        } else {
+            $time = time();
+        }
+
         $listeColorTeam = ColorInfo::where('team_id', $team_id)->orderby('team_id')->orderby('date')->get();
         $listeColor = Colors::all();
         $data = array('listeColorInfo' => $listeColorTeam,
@@ -30,10 +35,13 @@ class AdminHomeController extends Controller
         foreach ($listeColorTeam as $key => $value) {
             $color[$value->date] = array('id' => $value->id, 'color' => $value->hasOneColor->color_code);
         }
-        $month = isset($month) && $month ? $month : date('m');
-        $year = isset($year) && $year ? $year : date('Y');
+        $month = date('m', $time);
+        $year = date('Y', $time);
+
         $calendar = Calendar::draw_calendar($month, $year, $color);
         $data['calendar'] = $calendar;
+        $data['time_next'] = strtotime('+1 month', $time);
+        $data['time_previous'] = strtotime('-1 month', $time);
     	return view('admin.index', $data);
     }
 }

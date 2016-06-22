@@ -24,8 +24,17 @@
 	</div>
 </div>
 <br />
-<div >
-	{!!$calendar !!}
+<div class="row" >
+	<div class="col-md-8">
+		<p>
+		    <a href="{{ url('/admin/' . $teamId . "?time_actuel=" . $time_previous) }}" class="btn btn-primary btn-sm navbar-left"> << mois precédent ({{ date('m', $time_previous) }})</a>
+		    <a href="{{ url('/admin/' . $teamId. "?time_actuel=" . $time_next) }}" class="btn btn-primary btn-sm navbar-right"> mois suivant ({{ date('m', $time_next) }}) >> </a>
+		</p>
+	</div>
+
+	<div class="col-md-8">
+		{!!$calendar !!}
+	</div>
 </div>
 
 <div id="dialog-form" title="Liste Couleur">
