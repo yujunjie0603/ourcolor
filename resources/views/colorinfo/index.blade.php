@@ -4,11 +4,13 @@
 
 <div class="row">
 	<div>
-		<form action="">
+		<form action="/" id="form_team">
 			<h1>Equipe : </h1>
-			<select name="team" class="form-control" class="col-md-4">
+
+			<select name="team" class="form-control" class="col-md-4" id="team">
 			@foreach ($listeTeam as $team )
-				<option value="{{$team->id}}">{{ $team->name }}</option>
+
+				<option value="{{$team->id}}" <?=$team->id == $team_defaut ? "selected" : ""?>>{{ $team->name }}</option>
 			@endforeach
 			</select>
 		</form>
@@ -59,5 +61,11 @@
 		</div>
 	</div>
 </div>
-
+<script type="text/javascript">
+	$("#team").change(function(event) {
+		$("#form_team").attr('action', '/' + $("#team").val()); 
+		$("#form_team").submit();
+	});
+</script>
 @endsection
+

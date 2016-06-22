@@ -17,7 +17,6 @@ class ColorInfoController extends Controller
      */
     public function index($team = "")
     {
-
         $data = array('listeTeam' => Teams::all());
         if (!$team) {
             $team = 1;
@@ -28,7 +27,7 @@ class ColorInfoController extends Controller
         $datefin1 = date('Y-m-d', strtotime('+' .(6-$day). 'days'));
         $datebegin2 = date('Y-m-d', strtotime('+' . (7 - $day) . 'days'));
         $datefin2 = date('Y-m-d', strtotime('+' .(13-$day). 'days'));
-
+        $data['team_defaut'] = $team;
         $data['colorInfos1'] = ColorInfo::where('team_id', $team)->where('date', '>=', $datebegin1)->where('date', '<', $datefin1)->get();
         $data['colorInfos2'] = ColorInfo::where('team_id', $team)->where('date', '>=', $datebegin2)->where('date', '<', $datefin2)->get();
         return view('colorinfo.index', $data);

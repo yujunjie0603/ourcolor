@@ -15,15 +15,21 @@ Route::get('login/', function () {
     return view('welcome');
 });
 
-// chemin admin
+
+Route::get('auth/logout', 'Auth\AuthController@logout');
+
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth'], function() {
 
 	Route::resource('colorinfo', 'ColorInfoController');
 	Route::resource('user', 'UserController');
 	Route::get('/{team_id?}', 'AdminHomeController@index');
 });
-//Route::get('/{team?}', 'ColorInfoController@index');
+
 Route::auth();
+
+Route::get('/{team?}', 'ColorInfoController@index');
+Route::auth();
+Route::get('/', 'ColorInfoController@index');
 
 Route::get('color/', 'ColorInfoController@index');
 

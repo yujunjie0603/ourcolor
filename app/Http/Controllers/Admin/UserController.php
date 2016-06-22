@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\User;
-
+use App\Teams;
 
 class UserController extends Controller
 {
@@ -30,7 +30,10 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        $teams = Teams::all();
+        return view('admin.user.create', 
+            ['teams' => $teams]
+        );
     }
 
     /**
@@ -41,7 +44,24 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'nom' => 'required',
+            'email' => 'required|unique:users,email|email',
+            'team' => 'required',
+            'telephone' => 'required'
+            ]);
+
+        $user = User::create([
+            'name' => $request->input('nom'),
+            'email' => $request->input('email'),
+            'password' => bcrypt("axialys2016"),
+            'team_id' => $request->input('team'),
+            'telephone' => $request->input('telephone')
+        ]);
+        if ($user) {
+            return redirect('admin/user');
+        }
+        return redirect()->back()->withErrors('Erreur de la création de user')->withInput();
     }
 
     /**
@@ -64,7 +84,10 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::find($id);
-        return view('admin.user.create')->with('user', $user);
+        $teams = Teams::all();
+        return view('admin.user.edit', 
+            ['teams' => $teams, 'user' => $user]
+        );
     }
 
     /**
@@ -76,7 +99,23 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = User::find($id);
+        if ($user) {
+            $this->validate($request, [
+                'nom' => 'required',
+                'email' => 'required|unique:users,email,' . $id . '|email',
+                'team' => 'required',
+                'telephone' => 'required'
+                ]);
+            $user->name = $request->input('nom');
+            $user->email = $request->input('email');
+            $user->team_id = $request->input('team');
+            $user->telephone = $request->input('telephone');
+            if ($user->save()) {
+                return redirect('admin/user');
+            }
+        }
+        return redirect()->back()->withErrors("Erreur de la mis à jour !")->withInput();
     }
 
     /**
