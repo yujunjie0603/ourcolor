@@ -41,6 +41,7 @@ class AdminHomeController extends Controller
         $calendar = Calendar::draw_calendar($month, $year, $color);
         $data['calendar'] = $calendar;
         $data['time_next'] = strtotime('+1 month', $time);
+        $data['time_actuel'] = $time;
         $data['time_previous'] = strtotime('-1 month', $time);
     	return view('admin.index', $data);
     }

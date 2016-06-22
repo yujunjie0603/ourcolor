@@ -27,14 +27,13 @@ $(function() {
 					@endforeach
 				</select>
 				<br>
-				<div>
-				<fieldset>
-				<legend> New Color : </legend>	
+				<div style="border:2px;border-color:#000000;border-style:solid;padding: 5px;">
+					<p> Nouvelle couleur </p>
 					<label for="date">Name : </label>
 					<input type="text" name="name" class="form-control">
 					<label for="new_color" >New color</label>
 					<input type="color" name="new_color" value="" class="form-control"/>
-				</fieldset>
+
 				</div>
 				<label for="date">Team : </label>
 				<select name="team" class="form-control" required="required">

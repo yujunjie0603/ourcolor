@@ -25,10 +25,13 @@
 </div>
 <br />
 <div class="row" >
+	<div>
+	<p><label>Mois {{ date('M', $time_actuel) }}</label></p>
+	</div>
 	<div class="col-md-8">
 		<p>
-		    <a href="{{ url('/admin/' . $teamId . "?time_actuel=" . $time_previous) }}" class="btn btn-primary btn-sm navbar-left"> << mois precédent ({{ date('m', $time_previous) }})</a>
-		    <a href="{{ url('/admin/' . $teamId. "?time_actuel=" . $time_next) }}" class="btn btn-primary btn-sm navbar-right"> mois suivant ({{ date('m', $time_next) }}) >> </a>
+		    <a href="{{ url('/admin/' . $teamId . "?time_actuel=" . $time_previous) }}" class="btn btn-primary btn-sm navbar-left col-md-3"> << mois precédent ({{ date('m', $time_previous) }})</a>
+		    <a href="{{ url('/admin/' . $teamId. "?time_actuel=" . $time_next) }}" class="btn btn-primary btn-sm navbar-right col-md-3"> mois suivant ({{ date('m', $time_next) }}) >> </a>
 		</p>
 	</div>
 
