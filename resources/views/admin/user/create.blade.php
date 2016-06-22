@@ -21,8 +21,15 @@
 			<input type="text" name="telephone" class="form-control" required="required" >
 		</div>
 		<div>
+			<label for="team">Equipe : </label>
+			<select name="team" class="form-control" required="required">
+				@foreach ($teams as $team)
+				<option value="{{ $team->id }}" >{{ $team->name }}</option>
+				@endforeach
+			</select>
 		</div>
-		<button class="btn btn-lg btn-info">Add Color</button>
+		<br />
+		<button class="btn btn-lg btn-info">Add User</button>
 	</form>
 </div>
 @endsection

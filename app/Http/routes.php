@@ -15,6 +15,8 @@ Route::get('login/', function () {
     return view('welcome');
 });
 
+Route::get('auth/logout', 'Auth\AuthController@logout');
+
 // chemin admin
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth'], function() {
 
@@ -23,7 +25,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
 	Route::get('/{team_id?}', 'AdminHomeController@index');
 });
 
-Route::get('/{team?}', 'ColorInfoController@index');
+//Route::get('/{team?}', 'ColorInfoController@index');
 Route::auth();
 Route::get('/', 'ColorInfoController@index');
 Route::get('color/', 'ColorInfoController@index');

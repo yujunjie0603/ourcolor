@@ -30,6 +30,10 @@ class UserController extends Controller
      */
     public function create()
     {
+        $teams = Teams::all();
+        return view('admin.user.create', 
+            ['teams' => $teams]
+        );
     }
 
     /**
@@ -40,7 +44,24 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'nom' => 'required',
+            'email' => 'required|unique:users,email|email',
+            'team' => 'required',
+            'telephone' => 'required'
+            ]);
+
+        $user = User::create([
+            'name' => $request->input('nom'),
+            'email' => $request->input('email'),
+            'password' => bcrypt("axialys2016"),
+            'team_id' => $request->input('team'),
+            'telephone' => $request->input('telephone')
+        ]);
+        if ($user) {
+            return redirect('admin/user');
+        }
+        return redirect()->back()->withErrors('Erreur de la création de user')->withInput();
     }
 
     /**
