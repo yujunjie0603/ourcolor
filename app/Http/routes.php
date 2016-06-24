@@ -24,10 +24,6 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
 	Route::resource('user', 'UserController');
 	Route::get('/{team_id?}', 'AdminHomeController@index');
 });
-
-
-Route::auth();
-
 Route::get('/{team?}', 'ColorInfoController@index');
 Route::auth();
 Route::get('/', 'ColorInfoController@index');
