@@ -27,12 +27,14 @@
 						<th>Couleur</th>
 					</tr>
 					@foreach ($colorInfos1 as $colorInfo)
-						<?php $color = $colorInfo->hasOneColor ?>
+						<?php $color = $colorInfo->hasOneColor ;?>
+						@if ( date_format(date_create($colorInfo['date']), 'N')  < 6)
 						<tr>
-							<td>{{$colorInfo->date}}</td>
-							<td>{{date_format(date_create($colorInfo->date), 'l')}}</td>
-							<td style="background-color:{{$color->color_code}}">  <label style="color:#ffffff">{{$color->name}}</label></td>
-						</tr>	
+							<td>{{$colorInfo['date']}}</td>
+							<td>{{date_format(date_create($colorInfo['date']), 'l')}}</td>
+							<td style="background-color:{{$color['color_code']}}">  <label style="color:#ffffff">{{$color['name']}}</label></td>
+						</tr>
+						@endif
 					@endforeach
 				</table>
 			@endif
@@ -50,11 +52,13 @@
 				</tr>
 				@foreach ($colorInfos2 as $colorInfo)
 					<?php $color = $colorInfo->hasOneColor ?>
+					@if ( date_format(date_create($colorInfo['date']), 'N')  < 6)
 					<tr>
-						<td>{{$colorInfo->date}}</td>
-						<td>{{date_format(date_create($colorInfo->date), 'l')}}</td>
-						<td style="background-color:{{$color->color_code}}"> <label style="color:#ffffff">{{$color->name}}</label> </td>
-					</tr>	
+						<td>{{$colorInfo['date']}}</td>
+						<td>{{date_format(date_create($colorInfo['date']), 'l')}}</td>
+						<td style="background-color:{{$color['color_code']}}"> <label style="color:#ffffff">{{$color['name']}}</label> </td>
+					</tr>
+					@endif
 				@endforeach
 			</table>
 			@endif
