@@ -27,11 +27,11 @@
 						<th>Couleur</th>
 					</tr>
 					@foreach ($colorInfos1 as $colorInfo)
-						<?php $color = $colorInfo->hasOneColor ?>
+						<?php $color = $colorInfo->hasOneColor ;?>
 						<tr>
-							<td>{{$colorInfo->date}}</td>
-							<td>{{date_format(date_create($colorInfo->date), 'l')}}</td>
-							<td style="background-color:{{$color->color_code}}">  <label style="color:#ffffff">{{$color->name}}</label></td>
+							<td>{{$colorInfo['date']}}</td>
+							<td>{{date_format(date_create($colorInfo['date']), 'l')}}</td>
+							<td style="background-color:{{$color['color_code']}}">  <label style="color:#ffffff">{{$color['name']}}</label></td>
 						</tr>	
 					@endforeach
 				</table>
@@ -51,9 +51,9 @@
 				@foreach ($colorInfos2 as $colorInfo)
 					<?php $color = $colorInfo->hasOneColor ?>
 					<tr>
-						<td>{{$colorInfo->date}}</td>
-						<td>{{date_format(date_create($colorInfo->date), 'l')}}</td>
-						<td style="background-color:{{$color->color_code}}"> <label style="color:#ffffff">{{$color->name}}</label> </td>
+						<td>{{$colorInfo['date']}}</td>
+						<td>{{date_format(date_create($colorInfo['date']), 'l')}}</td>
+						<td style="background-color:{{$color['color_code']}}"> <label style="color:#ffffff">{{$color['name']}}</label> </td>
 					</tr>	
 				@endforeach
 			</table>
