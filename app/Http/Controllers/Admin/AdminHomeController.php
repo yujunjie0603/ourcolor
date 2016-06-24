@@ -32,8 +32,9 @@ class AdminHomeController extends Controller
             'teamId' => $team_id,
             'listeTeam' => Teams::all()
             );
+
         foreach ($listeColorTeam as $key => $value) {
-            $color[$value->date] = array('id' => $value->id, 'color' => $value->hasOneColor->color_code);
+            $color[$value->date] = array('id' => $value['id'], 'color' => $value->hasOneColor['color_code']);
         }
         $month = date('m', $time);
         $year = date('Y', $time);
