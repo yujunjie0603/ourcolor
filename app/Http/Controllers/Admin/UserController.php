@@ -8,7 +8,9 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\Teams;
-
+use App\LogMail;
+use App\Colors;
+use App\ColorInfo;
 class UserController extends Controller
 {
     /**
@@ -128,4 +130,40 @@ class UserController extends Controller
     {
         //
     }
+
+
+    public function informer($id)
+    {
+        $user = User::find($id);
+        $log_mail = LogMail::where('id_client', $id)->get();
+        $msg = "Bonjour " . $user['name'] . " : \r\n";
+
+        if (date('N') == '6' || date('N') == '7' ) {
+            $colorInfo = ColorInfo::where('team_id', $user['team_id'])
+                ->where('date', '>=', date('Y-m-d', strtotime('+1 day')))
+                ->where('date', '<=', date('Y-m-d', strtotime('+5 day')))
+                ->get();
+        } else {
+            $colorInfo = ColorInfo::where('team_id', $user['team_id'])
+                ->where('date', date('Y-m-d', strtotime('+1 day')))
+                ->get();  
+        }
+        
+        if ($colorInfo) {
+            $color = Colors::find($colorInfo[0]['color_id']);
+            $msg .= "La couleur de demain(" . date('Y-m-d', strtotime('+1 day')) . ") est : " . $color['name'] . "\r\n";
+            if (count($colorInfo) > 1) {
+
+                $msg .= "Les couleur de la semaine prochaine sont :\r\n";
+                foreach ($colorInfo as $value) {
+                    $msg .= "le " . $value['date'] . " est " . $value->hasOneColor['name'] . "\r\n";
+                }
+            }
+            if (mail($user->email, 'Couleur Equipe ', $msg)) {
+                echo "ok";
+            } else {
+                echo "error";
+            }
+        }
+    }    
 }

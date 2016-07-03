@@ -138,7 +138,6 @@
 		});
 
 		$("#team_id").on("change", function(){
-
 			$("#form_team").attr('action', "/admin/" + $("#team_id").val()).submit();
 		});
 	});
